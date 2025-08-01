@@ -1,0 +1,86 @@
+body.welcome {
+  margin: 0;
+  padding: 0;
+  background: url('images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fdf6ff;
+  font-family: 'Papyrus', fantasy;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.content {
+  background-color: rgba(16, 0, 26, 0.8);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #f0aaff;
+  max-width: 90%;
+}
+
+h1.flicker {
+  font-size: 2.8rem;
+  animation: flicker 2s infinite;
+  color: #ffd6ff;
+}
+
+p.quote {
+  font-style: italic;
+  color: #b6a3ff;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+button {
+  background: #ffb3ff;
+  color: black;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+  background: #ffcaff;
+  transform: scale(1.05);
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+  }
+}
+
+@media (min-width: 768px) {
+  h1.flicker {
+    font-size: 3.5rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  button {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Losers' Graveyard</title>
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url("images/deathlyhallow.jpg") no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'MedievalSharp', cursive;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
+      color: #f8dcdc;
+    }
+
+    /* Dark transparent overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: -1;
+    }
+
+    h1 {
+      font-size: 4rem;
+      color: #a80000;
+      text-shadow: 2px 2px 5px #000, 0 0 10px red;
+      animation: bleed 3s infinite;
+    }
+
+    @keyframes bleed {
+      0% { text-shadow: 0 0 5px #800000; }
+      50% { text-shadow: 0 0 20px red, 0 0 10px darkred; }
+      100% { text-shadow: 0 0 5px #800000; }
+    }
+
+    p {
+      font-size: 1.6rem;
+      margin-top: 30px;
+      color: #f8dcdc;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    .tombstone {
+      margin-top: 40px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      filter: grayscale(100%);
+      border: 5px solid #222;
+      border-radius: 15px;
+      box-shadow: 0 0 30px #000;
+      animation: rotateFade 6s infinite ease-in-out;
+    }
+
+    @keyframes rotateFade {
+      0%, 100% { transform: rotate(0deg); opacity: 1; }
+      50% { transform: rotate(-20deg); opacity: 0.7; }
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 50px;
+      padding: 14px 28px;
+      font-size: 1.3rem;
+      background: #3b0000;
+      color: #f8eaea;
+      text-decoration: none;
+      border: 2px solid #ff5555;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ff0000, inset 0 0 5px #800000;
+      transition: all 0.3s ease-in-out;
+    }
+
+    a:hover {
+      background: #1a0000;
+      box-shadow: 0 0 25px #ff0000, inset 0 0 8px #ff0000;
+      transform: scale(1.05);
+    }
+
+    /* Hide the audio player UI */
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Audio (must be hosted or served properly) -->
+  <audio autoplay loop>
+    <source src="harry_potter_theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <h1>☠️ The Graveyard of Fallen Champions</h1>
+  <p>Here lie those who dared... and failed.</p>
+  <p style="font-size: 2.5rem; font-weight: bold; color: crimson;">May their shame echo in eternity.</p>
+  <p>“Cedric Diggory sends his regards.”</p>
+  <img src="images/tombstone.png" alt="Tombstone" class="tombstone" />
+  <br />
+  <a href="index.html">↩️ Return from the Shadows</a>
+</body>
+</html>

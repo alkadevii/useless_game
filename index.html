@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Useless Triwizard Tournament</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="welcome">
+
+  <!-- Audio (starts muted to bypass autoplay restrictions) -->
+  <audio id="bg-audio" autoplay loop muted>
+    <source src="harry_potter_theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="content">
+    <h1 class="flicker">⚡ Welcome to the Useless Triwizard Tournament ⚡</h1>
+    <p class="quote">"It does not do to dwell on dreams and forget to live." – Dumbledore</p>
+    <p>But in this app, you're going to dwell. A lot. And fail.</p>
+    <div class="buttons">
+      <button onclick="startGame()">Enter the Goblet of Regret</button>
+      <button onclick="toggleMute()">🔇 Unmute Music</button>
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('bg-audio');
+    let isMuted = true;
+
+    function startGame() {
+      window.location.href = 'task1.html';
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      const btn = document.querySelector('.buttons button:nth-child(2)');
+      btn.textContent = isMuted ? '🔇 Unmute Music' : '🔊 Mute Music';
+    }
+
+    // Ensure audio starts on user interaction on some mobile browsers
+    document.addEventListener('click', () => {
+      if (audio.paused) audio.play();
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task 3 - Marauder’s Map of Complete Confusion</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      position: relative;
+      font-family: 'Cinzel Decorative', cursive;
+      color: #ffd700;
+      text-align: center;
+      padding: 50px 20px;
+      overflow-x: hidden;
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards;
+      z-index: 1;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('images/background.jpg') center center no-repeat;
+      background-size: cover;
+      z-index: -1;
+      animation: zoomIn 60s infinite alternate ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      text-shadow: 0 0 12px #ffcc00, 2px 2px 6px #2c1d1d;
+      animation: flicker 2s infinite ease-in-out;
+      color: #ffcc00;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; text-shadow: 0 0 12px #ffcc00; }
+      50% { opacity: 0.75; text-shadow: 0 0 20px #ffd700; }
+    }
+
+    p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 20px auto;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 20px;
+      border-radius: 12px;
+      color: #ffe4c4;
+    }
+
+    .map-paths {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+    }
+
+    .path {
+      width: 120px;
+      height: 120px;
+      background-image: url('https://i.imgur.com/y6G4Jnp.png');
+      background-size: cover;
+      border: 4px dashed #990000;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: rotate(calc(10deg * var(--i)));
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    }
+
+    .path:hover {
+      animation: wiggle 0.5s infinite;
+      box-shadow: 0 0 15px #ffcc00;
+    }
+
+    @keyframes wiggle {
+      0% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+      100% { transform: rotate(-3deg); }
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .modal-content {
+      background: rgba(48, 26, 0, 0.95);
+      color: #ffe4b5;
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 0 20px #ffcc00;
+      font-size: 1.2rem;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .task4-link {
+      display: inline-block;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ffccff;
+      text-decoration: underline;
+      font-size: 1.2rem;
+    }
+
+    .task4-link:hover {
+      color: #fff;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .path {
+        width: 80px;
+        height: 80px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- 🎵 Hidden autoplay background music -->
+  <audio id="bg-audio" autoplay loop>
+    <source src="harry_potter_theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <h1>🗺️ Marauder’s Map of Complete Confusion</h1>
+  <p>Tap a mysterious blob and see where fate takes you. Spoiler: nowhere good.</p>
+
+  <div class="map-paths">
+    <div class="path" style="--i:0" title="Might be a broom cupboard."></div>
+    <div class="path" style="--i:1" title="Smells like troll foot."></div>
+    <div class="path" style="--i:2" title="Looks like a trap. Definitely a trap."></div>
+    <div class="path" style="--i:3" title="You hear giggling. You shouldn’t."></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="resultModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <div id="modalMessage"></div>
+      <a href="task4.html" class="task4-link">→ Proceed to Next Task: Why though?</a>
+    </div>
+  </div>
+
+  <script>
+    const paths = document.querySelectorAll('.path');
+    const modal = document.getElementById('resultModal');
+    const modalMsg = document.getElementById('modalMessage');
+    const closeBtn = document.getElementById('closeModal');
+    const audio = document.getElementById('bg-audio');
+    const taskLink = document.querySelector('.task4-link');
+
+    const messages = [
+      "🎉 Congratulations! You've found… Filch's lost sock. Ew.",
+      "🥳 You're now legally married to a cursed teacup.",
+      "🧻 You entered the Forbidden Bathroom. Moaning Myrtle is NOT amused.",
+      "🐸 Professor Trelawney appears and just screams.",
+      "🦎 You fell into a broom closet and became a house elf intern.",
+      "👻 A ghost gives you a wet willy. HOW?!"
+    ];
+
+    const typewriter = (el, text, speed = 50) => {
+      el.innerHTML = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        el.innerHTML += text.charAt(i);
+        i++;
+        if (i === text.length) clearInterval(interval);
+      }, speed);
+    };
+
+    paths.forEach(path => {
+      path.addEventListener('click', () => {
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        modal.style.display = 'flex';
+        modalMsg.innerHTML = `<div style="opacity:0; transition: opacity 1s ease;">${msg}</div>`;
+        const div = modalMsg.querySelector("div");
+        setTimeout(() => div.style.opacity = 1, 50);
+
+        taskLink.style.display = 'none';
+
+        setTimeout(() => {
+          const dramaticText = "→ Proceed to Next Task: Why though?";
+          typewriter(taskLink, dramaticText, 40);
+          taskLink.style.display = 'inline-block';
+        }, 3000);
+
+        audio.volume = 0.6;
+        audio.muted = false;
+        audio.play().catch(() => {});
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('click', () => {
+      audio.muted = false;
+      audio.volume = 0.6;
+      audio.play().catch(() => {});
+    }, { once: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task 1 - Dragon Escape</title>
+  <style>
+    body.task {
+      background: radial-gradient(circle at center, #2d1a30 10%, #000000 100%);
+      color: #fff;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #ff4444;
+      animation: flicker 1.5s infinite alternate;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 10px red; }
+      100% { opacity: 0.7; text-shadow: 0 0 20px orange; }
+    }
+
+    .game-box {
+      margin-top: 3rem;
+      position: relative;
+      height: 400px;
+      border: 3px dashed #ccc;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.4);
+    }
+
+    #egg {
+      font-size: 2.5rem;
+      padding: 1rem 1.2rem;
+      border: none;
+      border-radius: 50%;
+      background-color: gold;
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 10px yellow;
+      animation: rotateEgg 2s linear infinite;
+      transition: top 0.2s ease, left 0.2s ease;
+    }
+
+    @keyframes rotateEgg {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #egg:hover {
+      transform: scale(1.3) rotate(180deg);
+    }
+
+    #message {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      color: #ffcc00;
+    }
+
+    .fireball {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle, orange, red);
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: floatFire 8s infinite linear;
+    }
+
+    @keyframes floatFire {
+      0% {
+        top: 100%;
+        left: calc(100% * var(--i));
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      100% {
+        top: -100px;
+        left: calc(100% * var(--i) + 50px);
+        opacity: 0.7;
+        transform: scale(0.5);
+      }
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 0 20px crimson;
+      animation: popIn 1s ease forwards;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      animation: flicker 2s infinite alternate;
+    }
+
+    .dramatic-text {
+      font-size: 2.5rem;
+      color: #ff4444;
+      text-shadow: 0 0 15px red;
+      animation: dramaticText 2s ease-in-out infinite alternate;
+      margin-top: 1.5rem;
+    }
+
+    @keyframes dramaticText {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .modal-content a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: crimson;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+
+    .modal-content a:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body class="task">
+
+  <!-- Background Music -->
+  <audio id="bg-music" autoplay loop>
+    <source src="harry_potter_theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <h1>🐉 Task 1: Face the Hungarian Horntail</h1>
+  <p>You must retrieve the golden egg. Use your mouse to dodge fireballs!</p>
+
+  <div class="game-box">
+    <p>Click the golden egg! (It's literally impossible)</p>
+    <button id="egg">🥚</button>
+  </div>
+
+  <div id="message"></div>
+
+  <!-- Animated fireballs -->
+  <div class="fireball" style="--i: 0.1;"></div>
+  <div class="fireball" style="--i: 0.3;"></div>
+  <div class="fireball" style="--i: 0.5;"></div>
+  <div class="fireball" style="--i: 0.7;"></div>
+  <div class="fireball" style="--i: 0.9;"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="endModal">
+    <div class="modal-content">
+      <h2>🔥 Who do you think you are?</h2>
+      <p><strong>The Chosen One?</strong> You lost. Gloriously.</p>
+      <div class="dramatic-text">Cry in the Great Hall</div>
+      <a href="task2.html">Next Task →</a>
+    </div>
+  </div>
+
+  <script>
+    const egg = document.getElementById("egg");
+    const message = document.getElementById("message");
+    const modal = document.getElementById("endModal");
+    const music = document.getElementById("bg-music");
+
+    // Force play music on first interaction if autoplay fails
+    document.body.addEventListener("click", () => {
+      if (music.paused) {
+        music.play().catch(() => {});
+      }
+    }, { once: true });
+
+    egg.addEventListener("mouseover", () => {
+      const randTop = Math.random() * 80;
+      const randLeft = Math.random() * 80;
+      egg.style.top = `${randTop}%`;
+      egg.style.left = `${randLeft}%`;
+    });
+
+    egg.addEventListener("click", () => {
+      message.innerHTML = "<p>😵 You clicked it! But... it’s a decoy. The dragon ate you.</p>";
+    });
+
+    setTimeout(() => {
+      modal.style.display = "flex";
+    }, 8000);
+  </script>
+</body>
+</html>

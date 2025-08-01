@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Task - Marauder’s Map Mayhem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    body {
+      background: url('images/background.jpg') center/cover no-repeat fixed;
+      font-family: 'Courier New', monospace;
+      color: #ffd8ff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 2px #000;
+      margin-bottom: 10px;
+    }
+
+    .map-paths {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .path {
+      width: 130px;
+      height: 130px;
+      background-color: rgba(0, 0, 0, 0.4);
+      border: 2px dashed #ffb3ff;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: float 3s infinite;
+    }
+
+    .path img {
+      width: 70px;
+      height: 70px;
+      filter: drop-shadow(0 0 5px #fff);
+      transition: transform 0.3s;
+    }
+
+    .path:hover {
+      transform: scale(1.1);
+    }
+
+    .path:hover img {
+      transform: rotate(5deg) scale(1.1);
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 99;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-content {
+      background-color: #1a001a;
+      margin: 15% auto;
+      padding: 30px;
+      border: 3px solid #ffb3ff;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 400px;
+      color: #ffd8ff;
+      text-align: center;
+    }
+
+    .close {
+      color: #ffccff;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .end-link {
+      margin-top: 15px;
+      display: inline-block;
+      font-weight: bold;
+      color: #ffd9f9;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 600px) {
+      .path {
+        width: 100px;
+        height: 100px;
+      }
+
+      .path img {
+        width: 60px;
+        height: 60px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🗺️ Final Task: Follow the Marauder’s Map</h1>
+  <p>Pick the path that leads to eternal glory… or epic failure.</p>
+
+  <audio id="bg-audio" autoplay loop>
+    <source src="harry_potter_theme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="map-paths">
+    <div class="path" data-index="0"><img src="images/footprint.jpg" alt="Footprint"></div>
+    <div class="path" data-index="1"><img src="images/cup.jpg" alt="Cup"></div>
+    <div class="path" data-index="2"><img src="images/map.jpg" alt="Map Scroll"></div>
+    <div class="path" data-index="3"><img src="images/wand.jpg" alt="Wand"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="result-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <p id="modal-text"></p>
+      <a href="triwizard-loser.html" class="end-link">→ Face Your Triwizard Fate</a>
+    </div>
+  </div>
+
+  <script>
+    const paths = document.querySelectorAll('.path');
+    const modal = document.getElementById('result-modal');
+    const modalText = document.getElementById('modal-text');
+    const closeModal = document.getElementById('close-modal');
+    const audio = document.getElementById('bg-audio');
+
+    const insults = [
+      "Fred says: Did you just trip over your own ambition?",
+      "George says: Brilliant. Another map casualty.",
+      "The map laughs: Glory? You couldn’t even find the loo.",
+      "You’ve reached: The Chamber of Poor Decisions."
+    ];
+
+    paths.forEach(path => {
+      path.addEventListener('click', () => {
+        const insult = insults[Math.floor(Math.random() * insults.length)];
+        modalText.innerText = insult;
+        modal.style.display = "block";
+      });
+    });
+
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    window.onclick = (event) => {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    // Audio autoplay on user interaction (mobile-friendly fallback)
+    const enableAudio = () => {
+      audio.volume = 0.6;
+      audio.play().catch(() => {});
+      localStorage.setItem('hp-audio-playing', 'true');
+    };
+
+    document.addEventListener('click', enableAudio, { once: true });
+
+    window.addEventListener('load', () => {
+      if (localStorage.getItem('hp-audio-playing') === 'true') {
+        audio.volume = 0.6;
+        audio.play().catch(() => {});
+      }
+    });
+  </script>
+</body>
+</html>
