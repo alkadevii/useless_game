@@ -1,39 +1,29 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# Harry Potter :- Useless Saga 🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [Individual]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Alka Devi
 
 ### Project Description
-[2-3 lines about what your project does]
+This project is a fun, dramatic Harry Potter-themed "Losers' Graveyard" webpage that humorously memorializes fallen champions with eerie visuals, spooky animation, haunting background music, and themed effects. It combines dark aesthetics, rotating tombstone imagery, and a gothic font to create an immersive experience.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+This project solves the age-old problem of where to eternally mock failed champions. With blood-red text, spooky music, and a haunted vibe, it finally gives them the over-the-top memorial they never asked for.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+By throwing logic out the window and embracing melodrama, we built an overly theatrical graveyard powered by HTML, CSS, and a sprinkle of chaos. With haunting music, glowing buttons, and flickering regret, users can finally mourn (or mock) their fictional failures in style.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
-
-For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- HTML, CSS, JS
 
 ### Implementation
 For Software:
@@ -70,14 +60,14 @@ For Hardware:
 *Add caption explaining the schematic*
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+![index.html](Add photo of your components here)
+![alt text](image.png)
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+![tasks](Add photos of build process here)
+![alt text](image-1.png)
 
-![Final](Add photo of final product here)
-*Explain the final build*
+![final](Add photo of final product here)
+![alt text](image-2.png)
 
 ### Project Demo
 # Video
@@ -88,9 +78,7 @@ For Hardware:
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
